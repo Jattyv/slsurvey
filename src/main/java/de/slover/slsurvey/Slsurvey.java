@@ -21,6 +21,7 @@ import de.slover.slsurvey.io.QGFileReader;
 import de.slover.slsurvey.rest.service.SurveyRestService;
 import de.slover.slsurvey.server.handler.HTMLHandler;
 import de.slover.slsurvey.service.SurveyService;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.jetty.server.Handler;
@@ -44,11 +45,24 @@ public class Slsurvey {
 
     public static void main(String[] args) {
         Slsurvey sl = new Slsurvey();
-        sl.init();
+        if (args.length == 0) {
+            sl.init();
+        } else if (args[0].equals("-help")) {
+            System.out.println("java -jar SlSurvey.jar [options]\n"
+                    + "\n"
+                    + "options:"
+                    + "(file)   Loads this Questionfile instead of starting the JFileChooser.");
+        } else {
+            sl.init(new File(args[0]));
+        }
     }
 
     public void init() {
-        Survey survey = QGFileReader.readSurvey(QGFileReader.chooseFile());
+        init(QGFileReader.chooseFile());
+    }
+
+    public void init(File file) {
+        Survey survey = QGFileReader.readSurvey(file);
         sservice = new SurveyService();
         sservice.setSurvey(survey);
         startWebServer(survey);
