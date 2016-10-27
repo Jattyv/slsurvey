@@ -55,6 +55,7 @@ public class QGFileReader {
 
             }
         }
+        survey.addGroup(group);
         return survey;
         }
 
