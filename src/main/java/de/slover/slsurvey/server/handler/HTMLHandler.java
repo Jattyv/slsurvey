@@ -39,7 +39,8 @@ public class HTMLHandler extends AbstractHandler {
 
     public HTMLHandler(Survey survey, Properties conf) {
         html = QGFileReader.readFile(new File(conf.get(PropertiesReader.WEB_DIR) + File.separator + conf.get(PropertiesReader.HTML_FILE)));
-        html = HtmlCreator.createHtml(html, survey);
+        String answers = QGFileReader.readFile(conf.getProperty(PropertiesReader.DEFAULT_ANSWER));
+        html = HtmlCreator.createHtml(html, survey, answers);
     }
 
     @Override

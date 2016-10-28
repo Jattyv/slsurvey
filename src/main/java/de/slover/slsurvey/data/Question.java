@@ -16,6 +16,9 @@
  */
 package de.slover.slsurvey.data;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  *
  * @author Dimitrios Diamantidis &lt;Dimitri.dia@ledimi.com&gt;
@@ -23,10 +26,12 @@ package de.slover.slsurvey.data;
 public class Question {
     String question;
     String answer;
+    List<String> answerField;
 
     public Question() {
         question = "";
         answer = "";
+        answerField = new LinkedList<>();
     }
 
     public Question(String question) {
@@ -49,4 +54,13 @@ public class Question {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
+
+    public List<String> getAnswerField() {
+        return answerField;
+    }
+
+    public void setAnswerField(List<String> answerField) {
+        this.answerField = answerField;
+    }
+
 }

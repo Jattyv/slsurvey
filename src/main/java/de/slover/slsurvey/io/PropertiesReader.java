@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 public class PropertiesReader {
 
     public static final String PORT = "server-port";
+    public static final String DEFAULT_ANSWER = "default-answer-file";
     public static final String WEB_DIR = "web-directory";
     public static final String HTML_FILE = "html-file";
 

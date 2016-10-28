@@ -52,4 +52,8 @@ public class Group {
     public void addQuestion(String question) {
         questions.add(new Question(question));
     }
+
+    public void addQuestion(Question question) {
+        questions.add(question);
+    }
 }

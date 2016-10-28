@@ -17,6 +17,7 @@
 package de.slover.slsurvey.io;
 
 import de.slover.slsurvey.data.Group;
+import de.slover.slsurvey.data.Question;
 import de.slover.slsurvey.data.Survey;
 import java.io.BufferedReader;
 import java.io.File;
@@ -41,10 +42,16 @@ public class QGFileReader {
         String text = readFile(file);
         String[] splittenText = text.split("\n");
         Group group = new Group();
+        Question question = new Question();
         for (String split : splittenText) {
             if (split.charAt(0) == '-') {
                 if (split.charAt(1) == '-') {
-                    group.addQuestion(split.substring(2, split.length()));
+                    if (split.charAt(2) == '-') {
+                        question.getAnswerField().add(split.substring(3, split.length()));
+                    } else {
+                        question = new Question(split.substring(2, split.length()));
+                        group.addQuestion(question);
+                    }
                 } else {
                     if (!group.getName().equals("")) {
                         survey.addGroup(group);
@@ -59,7 +66,13 @@ public class QGFileReader {
         return survey;
         }
 
-
+    public static String readFile(String file) {
+        try {
+            return readFile(new File(file));
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     public static String readFile(File file) {
         StringBuilder sbuilder = new StringBuilder();

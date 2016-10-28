@@ -19,6 +19,8 @@ package de.slover.slsurvey.server.util;
 import de.slover.slsurvey.data.Group;
 import de.slover.slsurvey.data.Question;
 import de.slover.slsurvey.data.Survey;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,33 +28,61 @@ import de.slover.slsurvey.data.Survey;
  */
 public class HtmlCreator {
 
-    protected static String End
+    protected static String Submit
             = "    <div class=\"submit\">\n"
             + "      <button id=\"ssubmit\"> SUBMIT</button>\n"
             + "    </div>\n";
 
-    protected static String sel
-            = "     <select class=\"answer\">\n"
-            + "         <option value=\"--\">--</option>\n"
-            + "         <option value=\"-\">-</option>\n"
-            + "         <option value=\"+\">+</option>\n"
-            + "         <option value=\"++\">++</option>\n"
-            + "     </select>\n";
-
-    public static String createHtml(String html, Survey s) {
+    public static String createHtml(String html, Survey s, String answers) {
         StringBuilder htmlBuilder = new StringBuilder();
         for (Group g : s.getGroups()) {
             htmlBuilder.append("<div class = \"box\">");
             htmlBuilder.append("<h3>").append(g.getName()).append("</h3>\n");
             for (Question question : g.getQuestions()) {
                 htmlBuilder.append("<p>").append(question.getQuestion()).append("</p>\n");
-                htmlBuilder.append(sel);
+                if (answers == null) {
+                    htmlBuilder.append(createAnswerBlock(question));
+                } else {
+                    htmlBuilder.append(createAnswerBlock(answers));
+                }
             }
-            htmlBuilder.append("</div>");
+            htmlBuilder.append("</div>\n");
         }
-        htmlBuilder.append(End);
+        htmlBuilder.append(Submit);
 
         return html.replace("<!--<sloversurvey></sloversurvey>-->", htmlBuilder.toString());
+    }
+
+    public static String createAnswerBlock(Question question) {
+        StringBuilder blockBuilder = new StringBuilder();
+        blockBuilder.append("<select class=\"answer\">\n");
+        for (String answer : question.getAnswerField()) {
+            blockBuilder.append("<option value=\"").append(answer)
+                    .append("--").append("\">").append(answer)
+                    .append("--</option>\n");
+        }
+        blockBuilder.append("</select>\n");
+
+        return blockBuilder.toString();
+    }
+
+    public static String createAnswerBlock(String answers) {
+        if (answers.charAt(0) == '-') {
+            StringBuilder blockBuilder = new StringBuilder();
+            blockBuilder.append("<select class=\"answer\">\n");
+            String[] splittenString = answers.split("\n");
+            for (String split : splittenString) {
+                String answer = split.substring(3, split.length());
+                blockBuilder.append("<option value=\"").append(answer)
+                        .append("--").append("\">").append(answer)
+                        .append("--</option>\n");
+            }
+            blockBuilder.append("</select>\n");
+            return blockBuilder.toString();
+        }
+
+        Logger.getLogger(HtmlCreator.class.getName()).log(Level.WARNING, "The QuestionFile is invalid.");
+        return null;
     }
 
 }
