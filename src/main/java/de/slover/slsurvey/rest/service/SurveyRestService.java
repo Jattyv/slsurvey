@@ -59,7 +59,18 @@ public class SurveyRestService {
     public Response readAllSurveyAnswers() {
         Gson gson = new GsonBuilder().setVersion(1.0).create();
 
-        return Response.ok(Slsurvey.getSurveyService().getResults()).build();
+        return Response.ok(Slsurvey.getSurveyService().getResults("text")).build();
     }
+
+    @GET
+    @Produces("text/csv")
+    @Path("/download/all")
+    public Response readAllSurveyAnswersAsCSV() {
+        Gson gson = new GsonBuilder().setVersion(1.0).create();
+
+        return Response.ok(Slsurvey.getSurveyService().getResults("csv"))
+                .header("Content-Disposition", "attachment; filename=result.csv").build();
+    }
+
 
 }

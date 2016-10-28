@@ -47,14 +47,18 @@ public class SurveyService {
         return form;
     }
 
-    public String getResults() {
+    public String getResults(String type) {
         StringBuilder resBuilder = new StringBuilder();
         Map<String, Integer> answers = new TreeMap<>();
 
         for (int i = 0; i < form.getGroups().size(); i++) {
             resBuilder.append(form.getGroups().get(i).getName()).append("\n");
             for (int i2 = 0; i2 < form.getGroups().get(i).getQuestions().size(); i2++) {
-                resBuilder.append(form.getGroups().get(i).getQuestions().get(i2).getQuestion()).append("\n");
+                if (type.equals("text")) {
+                    resBuilder.append(form.getGroups().get(i).getQuestions().get(i2).getQuestion()).append("\n");
+                } else if (type.equals("csv")) {
+                    resBuilder.append(",").append(form.getGroups().get(i).getQuestions().get(i2).getQuestion()).append("\n");
+                }
                 answers.clear();
                 for (int i3 = 0; i3 < result.size(); i3++) {
                     try {
@@ -67,8 +71,14 @@ public class SurveyService {
                         e.printStackTrace();
                     }
                 }
+                if (type.equals("text")) {
                 for (String ans : answers.keySet()) {
                     resBuilder.append(ans).append(": ").append(answers.get(ans)).append("\n");
+                    }
+                } else if (type.equals("csv")) {
+                    for (String ans : answers.keySet()) {
+                        resBuilder.append(",,").append(ans).append(":,").append(answers.get(ans)).append("\n");
+                    }
                 }
 
             }
