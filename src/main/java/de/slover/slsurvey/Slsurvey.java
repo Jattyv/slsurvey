@@ -17,11 +17,13 @@
 package de.slover.slsurvey;
 
 import de.slover.slsurvey.data.Survey;
+import de.slover.slsurvey.io.PropertiesReader;
 import de.slover.slsurvey.io.QGFileReader;
 import de.slover.slsurvey.rest.service.SurveyRestService;
 import de.slover.slsurvey.server.handler.HTMLHandler;
 import de.slover.slsurvey.service.SurveyService;
 import java.io.File;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.jetty.server.Handler;
@@ -69,18 +71,19 @@ public class Slsurvey {
     }
 
     public void startWebServer(Survey survey) {
+        Properties conf = PropertiesReader.readConfig();
         ResourceConfig config = new ResourceConfig();
         config.packages("jettyjerseytutorial");
         ServletHolder servlet = new ServletHolder(new ServletContainer(config));
 
-        Server server = new Server(8080);
+        Server server = new Server(Integer.parseInt(conf.getProperty(PropertiesReader.PORT)));
         try {
 
             ContextHandler contextSurvey = new ContextHandler("/survey");
-            contextSurvey.setHandler(new HTMLHandler(survey));
+            contextSurvey.setHandler(new HTMLHandler(survey, conf));
 
             ResourceHandler resourceHandler = new ResourceHandler();
-            resourceHandler.setResourceBase("web");
+            resourceHandler.setResourceBase(conf.getProperty(PropertiesReader.WEB_DIR));
 
             ContextHandler contextSurveyCSS = new ContextHandler("/resources");
             contextSurveyCSS.setHandler(resourceHandler);

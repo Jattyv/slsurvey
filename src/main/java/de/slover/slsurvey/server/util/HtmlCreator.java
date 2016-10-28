@@ -26,27 +26,10 @@ import de.slover.slsurvey.data.Survey;
  */
 public class HtmlCreator {
 
-    protected static String Head = "<html>\n"
-            + "  <head>\n"
-            + "    <title>Slover query exampl</title>\n"
-            + "    <link rel=\"stylesheet\" href=\"/resources/survey.css\">\n"
-            + "    <script src=\"/resources/jquery-3.1.1.js\"></script>\n"
-            + "    <script language=\"javascript\" type=\"text/javascript\" src=\"/resources/slsurvey.js\"></script>\n"
-            + "  </head>\n"
-            + "  <body>\n"
-            + "    <header>\n"
-            + "      <h1>Slover</h1>\n"
-            + "    </header>";
-
     protected static String End
             = "    <div class=\"submit\">\n"
             + "      <button id=\"ssubmit\"> SUBMIT</button>\n"
-            + "    </div>\n"
-            + "    <footer>\n"
-            + "      <p>&copy; By Ledimi 2016</p>\n"
-            + "    </footer>\n"
-            + "  </body>\n"
-            + "</html>";
+            + "    </div>\n";
 
     protected static String sel
             = "     <select class=\"answer\">\n"
@@ -56,21 +39,20 @@ public class HtmlCreator {
             + "         <option value=\"++\">++</option>\n"
             + "     </select>\n";
 
-    public static String createHtml(Survey s) {
-        StringBuilder html = new StringBuilder();
-        html.append(Head);
+    public static String createHtml(String html, Survey s) {
+        StringBuilder htmlBuilder = new StringBuilder();
         for (Group g : s.getGroups()) {
-            html.append("<div class = \"box\">");
-            html.append("<h3>").append(g.getName()).append("</h3>\n");
+            htmlBuilder.append("<div class = \"box\">");
+            htmlBuilder.append("<h3>").append(g.getName()).append("</h3>\n");
             for (Question question : g.getQuestions()) {
-                html.append("<p>").append(question.getQuestion()).append("</p>\n");
-                html.append(sel);
+                htmlBuilder.append("<p>").append(question.getQuestion()).append("</p>\n");
+                htmlBuilder.append(sel);
             }
-            html.append("</div>");
+            htmlBuilder.append("</div>");
         }
-        html.append(End);
+        htmlBuilder.append(End);
 
-        return html.toString();
+        return html.replace("<!--<sloversurvey></sloversurvey>-->", htmlBuilder.toString());
     }
 
 }

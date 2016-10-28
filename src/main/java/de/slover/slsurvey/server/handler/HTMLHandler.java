@@ -17,8 +17,12 @@
 package de.slover.slsurvey.server.handler;
 
 import de.slover.slsurvey.data.Survey;
+import de.slover.slsurvey.io.PropertiesReader;
+import de.slover.slsurvey.io.QGFileReader;
 import de.slover.slsurvey.server.util.HtmlCreator;
+import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,8 +37,9 @@ public class HTMLHandler extends AbstractHandler {
 
     String html = "";
 
-    public HTMLHandler(Survey survey) {
-        html = HtmlCreator.createHtml(survey);
+    public HTMLHandler(Survey survey, Properties conf) {
+        html = QGFileReader.readFile(new File(conf.get(PropertiesReader.WEB_DIR) + File.separator + conf.get(PropertiesReader.HTML_FILE)));
+        html = HtmlCreator.createHtml(html, survey);
     }
 
     @Override
