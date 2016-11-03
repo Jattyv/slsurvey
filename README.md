@@ -14,7 +14,9 @@ A lightweight and simple application that generates a website with a survey from
 There are some url‘s that are importand for using this application.
 
 {host}:8080/survey				The Website with the survey.
+
 {host}:8080/slsurvey/survey/all			The Result
+
 {host}:8080/slsurvey/survey/download/all	The Result as .CSV.
 
 
