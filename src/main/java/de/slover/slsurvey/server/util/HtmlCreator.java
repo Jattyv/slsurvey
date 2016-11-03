@@ -58,8 +58,8 @@ public class HtmlCreator {
         blockBuilder.append("<select class=\"answer\">\n");
         for (String answer : question.getAnswerField()) {
             blockBuilder.append("<option value=\"").append(answer)
-                    .append("--").append("\">").append(answer)
-                    .append("--</option>\n");
+                    .append("\">").append(answer)
+                    .append("</option>\n");
         }
         blockBuilder.append("</select>\n");
 
@@ -74,8 +74,8 @@ public class HtmlCreator {
             for (String split : splittenString) {
                 String answer = split.substring(3, split.length());
                 blockBuilder.append("<option value=\"").append(answer)
-                        .append("--").append("\">").append(answer)
-                        .append("--</option>\n");
+                        .append("\">").append(answer)
+                        .append("</option>\n");
             }
             blockBuilder.append("</select>\n");
             return blockBuilder.toString();
