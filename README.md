@@ -2,6 +2,21 @@
 
 A lightweight and simple application that generates a website with a survey from a questionfile and runs the website.
 
+###Getting Started
+1. Write a questionfile.
+2. Edit the configurations in the conf directory if needed.
+3. Exec the following command:
+```
+			java -jar slsurvey-1.1.jar {you_question_file}
+```
+
+###Online
+There are some url‘s that are importand for using this application.
+
+{host}:8080/survey				The Website with the survey.
+{host}:8080/slsurvey/survey/all			The Result
+{host}:8080/slsurvey/survey/download/all	The Result as .CSV.
+
 
 ###Configuration
 In the file slsurvey.properties in the config folder you can configure the following options:
